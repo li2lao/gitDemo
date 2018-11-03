@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+    </style>
+</head>
+<body>
+<canvas id="mycanvas" width="1200" height="550">您的浏览器不支持</canvas>
+<script>
+    var c=document.getElementById("mycanvas");
+    var cxt= c.getContext("2d");
+    function fn(){
+        cxt.clearRect(0,0,1200,500);
+        var d=new Date();
+        var h= d.getHours();
+        var m= d.getMinutes();
+        var s= d.getSeconds();
+        if(h>12){
+            h=h-12
+        }else{
+            h=h;
+        }
+        h=h+m/60;
+
+        //表盘
+        cxt.beginPath();
+        cxt.lineWidth=4;
+        cxt.strokeStyle="pink";
+        cxt.arc(250,250,200,0,2*Math.PI,false);
+        cxt.closePath();
+        cxt.stroke();
+//小时刻度
+        for(var i=0;i<12;i++){
+            cxt.save();    //保留环境不受影响
+            cxt.translate(250,250); // 把参照改为圆心
+            cxt.rotate(i*30*Math.PI/180); //30度
+            cxt.beginPath();
+            cxt.lineWidth=7;
+            cxt.strokeStyle="#000";
+            cxt.moveTo(0,-190);
+            cxt.lineTo(0,-170);
+            cxt.closePath();
+            cxt.stroke();
+            cxt.restore();  //回归正常
+        }
+        //分钟刻度
+        for(var i=0;i<60;i++){
+            cxt.save();    //保留环境不受影响
+            cxt.translate(250,250); //
+            cxt.rotate(i*6*Math.PI/180);
+            cxt.beginPath();
+            cxt.lineWidth=2;
+            cxt.strokeStyle="#000";
+            cxt.moveTo(0,-190);
+            cxt.lineTo(0,-180);
+            cxt.closePath();
+            cxt.stroke();
+            cxt.restore();  //回归正常
+        }
+//时针
+        cxt.save();    //保留环境不受影响
+        cxt.translate(250,250);
+        cxt.rotate(h*30*Math.PI/180)
+        cxt.beginPath()
+        cxt.lineWidth=6;
+        cxt.strokeStyle="#000"
+        cxt.moveTo(0,-100)
+        cxt.lineTo(0,10)
+        cxt.closePath()
+        cxt.stroke()
+        cxt.restore();  //回归正常
+//分针
+        cxt.save();    //保留环境不受影响
+        cxt.translate(250,250);
+        cxt.rotate(m*6*Math.PI/180)
+        cxt.beginPath()
+        cxt.lineWidth=4;
+        cxt.strokeStyle="red"
+        cxt.moveTo(0,-150)
+        cxt.lineTo(0,20)
+        cxt.closePath()
+        cxt.stroke()
+        cxt.restore();
+        //秒针
+        cxt.save();    //保留环境不受影响
+        cxt.translate(250,250);
+        cxt.rotate(s*6*Math.PI/180)
+        cxt.beginPath()
+        cxt.lineWidth=2;
+        cxt.strokeStyle="yellow"
+        cxt.moveTo(0,-170)
+        cxt.lineTo(0,30)
+        cxt.stroke()
+        cxt.closePath()
+        cxt.beginPath()
+        cxt.arc(0,0,5,0,2*Math.PI,false)
+        cxt.fillStyle="#000";  //填充颜色
+        cxt.fill();
+        cxt.closePath()
+        cxt.stroke()
+        cxt.restore();
+    }fn()
+   var p=setInterval(fn,1000)
+
+
+</script>
+</body>
+</html>
