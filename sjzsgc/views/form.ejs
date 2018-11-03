@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<form action="/updata" method="post">
+        <label for="tet">用户</label><input type="text" id="tet" name="username" value="<%= id[0].name %>"><br>
+        <label for="pass">密码</label><input type="password" id="pass" name="userpass" value="<%= id[0].pass %>"><br>
+        <span>性别</span><input type="radio" name="age" <%if(id[0].age=='男'){%>checked<%}%>  value="男"> 男
+                        <input type="radio" name="age" <%if(id[0].age=='女'){%>checked<%}%>  value="女"> 女 <br>
+        <label for="tel">电话</label><input type="tel" id="tel" value="<%= id[0].tel %>" name="usertel"><br>
+        <input type="hidden" value="<%= id[0].Id %>" name="id">
+    <input type="submit">
+    </form>
+</form>
+</body>
+</html>

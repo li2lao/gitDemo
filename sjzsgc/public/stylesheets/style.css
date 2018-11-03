@@ -1,0 +1,12 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+input[type=text],input[type=password],input[type=tel]{
+  width:200px;
+  margin-left:20px;
+  margin-bottom: 20px;
+}
+a {
+  color: #00B7FF;
+}
