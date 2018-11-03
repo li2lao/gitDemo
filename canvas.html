@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	html,body{
+		width: 100%;height: 100%;
+	}
+		body{
+			margin: 0;padding: 0;
+		}
+		#myCanvas{
+			background-color: #222;
+			display:block;
+		}
+	</style>
+</head>
+<body>
+	<canvas id='myCanvas' width='100%' height='100%'></canvas>
+	<script>
+		var canvas=document.querySelector("#myCanvas")
+		var c=canvas.getContext('2d')
+		//重置画布大小
+		size()
+		
+		function size(){
+		var oW=window.innerWidth,
+			oH=window.innerHeight;
+			canvas.width=oW;
+			canvas.height=oH;	
+			window.onresize=size	
+		}
+		
+			var aPosition=[]
+			function random(max,min){
+				return Math.random()*(min-max)+max
+			}
+			function Bubble(){}
+			Bubble.prototype =  {
+				//基础信息
+				init:function(){
+					this.Vx=random(1,-1);
+					this.Vy=random(1,-1);
+					this.x=random(0,window.innerWidth);
+					this.y=random(0,window.innerHeight);
+					this.r=random(1,3);
+					this.color=['#00ff66','#cc9999','#ff0033','yellow','#ccff99','#6666ff','#66cccc'];
+					
+					
+				},
+				//初始
+				drow:function(){
+						c.beginPath()
+						c.arc(this.x,this.y,this.r,0,2*Math.PI)
+						c.fillStyle=this.color[random(0,7)|0]
+						c.fill()
+				},
+				//运动
+				move:function(){
+						this.x+=this.Vx
+						this.y+=this.Vy
+						if(this.x+this.r > window.innerWidth||this.x-this.r<=3){
+							this.Vx=-this.Vx
+						}else if(this.y+this.r > window.innerHeight||this.y-this.r<=3){
+							this.Vy=-this.Vy
+						} 
+						this.drow()
+
+				}
+			};
+			
+			function num(x){
+				for(var i=0;i<x;i++){
+					var bubble=new Bubble()
+					bubble.init()
+					bubble.drow()
+					aPosition.push(bubble)
+				}
+			}
+			num(666)
+			setInterval(function(){
+				c.clearRect(0,0,window.innerWidth,window.innerHeight)
+				for(var item of aPosition){
+						item.move()
+						 
+				}
+			},1000/60)
+			
+		document.onmousemove=function(e){
+
+
+					
+
+		}
+
+	</script>
+</body>
+</html>
