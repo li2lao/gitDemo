@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<textarea name="" id="text" cols="30" rows="10"></textarea>
+	<input type="button" id="btn" value="发送">
+	<script src="https://cdn.bootcss.com/socket.io/2.1.1/socket.io.dev.js"></script>
+	<script>
+		var socket=io.connect("/")
+		document.getElementById("btn").onclick=function(){
+		var val=document.getElementById("text").value
+	
+		 if(!val) return;
+			socket.send(val)
+	}
+	socket.on("message",function(mes){
+		var p=document.createElement("p")
+		p.innerHTML=mes
+		document.body.appendChild(p)
+	})
+	</script>
+	<!-- 初始WEBsoket 做简易聊天室
+	第一步通过cmd启动node index.js
+	访问 127.0.0.1:3000页面-->
+
+</body>
+</html>
