@@ -1,3 +1,8 @@
+/*
+	数据导出至Exprot插件 支持IE浏览器 支持传入数据或者元素
+	 调用：Exprot.toExcel('#tabel')  #tabel为表格元素
+	       或：Exprot.toExcel(data.list) data.list为纯数据
+*/
 (function () {
   var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:html="http://www.w3.org/TR/REC-html40"><head><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>sheet</x:Name><x:WorksheetOptions><x:DisplayGridlines /></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml></head><body>{htmldata}</body></html>'
   var excel_URL = 'data:application/vnd.ms-excel;base64,'
