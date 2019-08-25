@@ -1,5 +1,5 @@
 /*
-	数据导出至Excel插件 支持IE浏览器 支持传入数据或者元素
+	数据导出至Excel插件 支持IE,谷歌、火狐、O鵬浏览器 支持传入数据或者元素
 	 调用：Exprot.toExcel('#tabel')  #tabel为表格元素
 	       或：Exprot.toExcel(data.list) data.list为纯数据
 */
