@@ -2,6 +2,7 @@
 	数据导出至Excel插件 支持IE,谷歌、火狐、O鵬浏览器 支持传入数据或者元素
 	 调用：Exprot.toExcel('#tabel')  #tabel为表格元素
 	       或：Exprot.toExcel(data.list) data.list为纯数据
+	如果有日期 数据key 为dataTime
 */
 (function () {
   var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:html="http://www.w3.org/TR/REC-html40"><head><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>sheet</x:Name><x:WorksheetOptions><x:DisplayGridlines /></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml></head><body>{htmldata}</body></html>'
@@ -52,7 +53,7 @@
             if (key === 'dataTime') {
               oSheet.Cells(i + 1, ++j) == this._changeDate(row[key])
             }
-            eles {
+            else {
               oSheet.Cells(i + 1, ++j) == row[key]
             }
           }
