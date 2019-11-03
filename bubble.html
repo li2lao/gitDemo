@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>打气球</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        overflow: hidden;
+        background-color: #ccc;
+      }
+      .balloon {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 160px;
+        height: 160px;
+        background-color: #fafaf5;
+        border-radius: 160px 160px 64px 160px;
+        transform: rotate(45deg);
+        box-shadow: -8px -8px 80px -8px #873940 inset;
+      }
+      .balloon::after {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        content: '';
+        border: 8px solid transparent;
+        border-right-color: #873940;
+        transform: rotate(45deg);
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      var bZ = 160,
+        timer,
+        balloons = [],
+        wW = window.innerWidth,
+        wH = window.innerHeight
+
+      init(10)
+      move()
+      document.body.addEventListener(
+        'click',
+        function(e) {
+          if (e.target.className.toLowerCase() === 'balloon') {
+            var ele = e.target
+            boom.call(
+              ele,
+              function() {
+                ele.remove()
+                init(1)
+              }.bind(ele)
+            )
+          }
+        },
+        false
+      )
+      time = setInterval(move, 1000 / 60)
+      function boom(cb) {
+        this.timer = setInterval(() => {
+          if (this.offsetWidth < 10) {
+            clearInterval(this.timer)
+            cb && cb()
+            return false
+          }
+          this.speed++
+          this.style.top = this.offsetTop - this.speed + 'px'
+          this.style.width = this.offsetWidth - 10 + 'px'
+          this.style.height = this.offsetHeight - 10 + 'px'
+        }, 1000 / 60)
+      }
+      function init(num) {
+        var fragment = document.createDocumentFragment()
+        for (var i = 0; i < num; i++) {
+          var randomX = Math.abs(~~(Math.random() * wW) - bZ) //处理左右两处边界
+          var oBalloon = document.createElement('div')
+          oBalloon.classList.add('balloon')
+          balloons.push(oBalloon)
+          oBalloon.style.left = randomX + 'px'
+          oBalloon.style.top = wH + 'px'
+          oBalloon.speed = ~~(Math.random() * 8) + 1
+          fragment.appendChild(oBalloon)
+        }
+        document.body.appendChild(fragment)
+      }
+      function move() {
+        //移动
+        for (var i = 0, item; (item = balloons[i++]); ) {
+          item.style.top = item.offsetTop - item.speed + 'px'
+          if (item.offsetTop < 0 - bZ) {
+            item.style.top = wH + 'px'
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
