@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>音频跳动柱状</title>
+    <style>
+      * {
+        margin: 0;
+      }
+      #canvas {
+        display: block;
+        background: linear-gradient(
+          135deg,
+          rgb(142, 13, 133) 0%,
+          rgb(230, 132, 110) 100%
+        );
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <audio src="qinghua.mp3" id="audio"></audio>
+    <script>
+      /*
+        1.获取音频输入源
+        2.处理音频输出至硬件耳机或扬声器
+        3.处理输入源成buffer数据
+          根据buffer数据来绘制canvas
+
+        需用火狐浏览器，或本地搭建静态服务运行
+      */
+      var oAudio = document.querySelector('#audio')
+      var canvas = document.querySelector('#canvas')
+      var oCtx = new AudioContext() // 创建音频环境
+      var audioSrc = oCtx.createMediaElementSource(oAudio) //获取媒体操作源
+      var analyser = oCtx.createAnalyser() // 创建处理音频的对象
+      audioSrc.connect(analyser) //媒体源连接处理对象
+      analyser.connect(oCtx.destination) // 连接输出 可理解为输出至硬件设备
+      var voiceHeight = new Uint8Array(analyser.frequencyBinCount) //吧音频处理成二进制流
+      var cCxt = canvas.getContext('2d')
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+      var oW = canvas.width
+      var oH = canvas.height
+      var color = cCxt.createLinearGradient(
+        oW / 2,
+        oH / 2 - 30,
+        oW / 2,
+        oH / 2 - 100
+      )
+      color.addColorStop(0, '#000')
+      color.addColorStop(0.5, '#069')
+      color.addColorStop(1, '#f6f')
+      var count = 80
+      function draw() {
+        analyser.getByteFrequencyData(voiceHeight) // 建立实事音频连接
+        var step = Math.round(voiceHeight.length / count)
+        cCxt.clearRect(0, 0, oW, oH)
+        for (var i = 0; i < count; i++) {
+          var audioHeight = voiceHeight[step * i]
+          cCxt.fillStyle = color
+          cCxt.fillRect(oW / 2 + i * 10, oH / 2, 7, -audioHeight)
+          cCxt.fillRect(oW / 2 - i * 10, oH / 2, 7, -audioHeight)
+        }
+      }
+      setInterval(draw, 1000 / 60)
+      oAudio.play()
+
+      // console.log(voiceHeight)
+    </script>
+  </body>
+</html>
